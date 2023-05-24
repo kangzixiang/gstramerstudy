@@ -11,7 +11,9 @@ endfunction ()
 set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 set(BASIC_TUTORIAL_1_DIR ${CMAKE_CURRENT_SOURCE_DIR}/basic-tutorial-1)
+set(BASIC_TUTORIAL_2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/basic-tutorial-2)
 set(BASIC_TUTORIAL_5_DIR ${CMAKE_CURRENT_SOURCE_DIR}/basic-tutorial-5)
 
 add_subdirectory_if_exist(basic-tutorial-1)
+add_subdirectory_if_exist(basic-tutorial-2)
 add_subdirectory_if_exist(basic-tutorial-5)
