@@ -1,6 +1,6 @@
- #include <pcl/range_image/range_image.h>
- 
- int main () {
+#include <pcl/range_image/range_image.h>
+
+ int range_image_creation_test () {
    pcl::PointCloud<pcl::PointXYZ> pointCloud;
    
    // Generate the data
@@ -31,4 +31,7 @@
                                   sensorPose, coordinate_frame, noiseLevel, minRange, borderSize);
   
   std::cout << rangeImage << "\n";
+
+  return 0;
+
 }
