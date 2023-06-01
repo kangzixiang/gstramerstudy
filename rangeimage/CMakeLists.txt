@@ -8,6 +8,6 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} CPP_SOURCE)
-add_executable (range_image ${CPP_SOURCE})
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} RANGE_IMAGE_CPP_SOURCE)
+add_executable (range_image ${RANGE_IMAGE_CPP_SOURCE})
 target_link_libraries (range_image ${PCL_LIBRARIES})
