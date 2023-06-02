@@ -42,8 +42,8 @@ static int offscreen = 1;
 static unsigned int max_nframes = 128;
 static unsigned int nframes = 0;
 static unsigned int time0;
-static unsigned int height = 128;
-static unsigned int width = 128;
+static unsigned int height = 600;
+static unsigned int width = 800;
 #define PPM_BIT (1 << 0)
 #define LIBPNG_BIT (1 << 1)
 #define FFMPEG_BIT (1 << 2)
