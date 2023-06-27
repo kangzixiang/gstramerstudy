@@ -6,6 +6,12 @@
 #include <GL/glut.h>
 #include <GL/glext.h>
 
+#include <vector>
+#include <tuple>
+#include <mutex>
+
+using namespace std;
+
 class CViewer 
 {
 public:
@@ -13,6 +19,7 @@ public:
     virtual ~CViewer();
 
     void viewerRun();
+    void setData(vector<tuple<float, float, float, float>> &vec);
 
 private:
 
@@ -23,6 +30,9 @@ private:
     static int model_update(void);
     static void idle(void);
     static void deinit(void);
+
+    static vector<tuple<float, float, float, float>> m_vecData;
+    static std::mutex m_vecMutex;
 
     static double angle;
     static double delta_angle;

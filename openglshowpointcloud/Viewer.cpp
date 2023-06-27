@@ -12,6 +12,9 @@ GLuint CViewer::rbo_depth;
 double CViewer::angle = 0.0;
 double CViewer::delta_angle = 1.0;
 
+vector<tuple<float, float, float, float>> CViewer::m_vecData;
+std::mutex CViewer::m_vecMutex;
+
 CViewer::CViewer()
 {
 
@@ -49,10 +52,18 @@ void CViewer::viewerRun()
     glutMainLoop();
 }
 
+void CViewer::setData(vector<tuple<float, float, float, float>> &vec)
+{
+    std::lock_guard<std::mutex> lock(m_vecMutex);
+    vec.swap(m_vecData);
+}
+
 void CViewer::init(void)
 {
     int glget;
-
+    int argc = 0;
+    char **argv = {};
+    // glutInit(&argc, argv);
     if (offscreen) {
         /*  Framebuffer */
         glGenFramebuffers(1, &fbo);
@@ -81,6 +92,7 @@ void CViewer::init(void)
         assert(height < (unsigned int)glget);
     } else {
         glReadBuffer(GL_BACK);
+        // glReadBuffer(GL_FRONT);
     }
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -95,19 +107,52 @@ void CViewer::init(void)
 }
 
 void CViewer::draw_scene(void) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    glRotatef(angle, 0.0f, 0.0f, -1.0f);
-    glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f( 0.0f,  0.5f, 0.0f);
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(-0.5f, -0.5f, 0.0f);
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f( 0.5f, 0.0f, 0.5f);
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f( 0.0f, -0.5f, 0.5f);
-    glEnd();
+    if (m_vecData.empty())
+    {
+        return ;
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glLoadIdentity();
+        // glRotatef(angle, 0.0f, 0.0f, -1.0f);
+        glBegin(GL_QUADS);
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glVertex3f( 0.0f,  0.5f, 0.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(-0.5f, -0.5f, 0.0f);
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f( 0.5f, 0.0f, 0.5f);
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f( 0.0f, -0.5f, 0.5f);
+        glEnd();
+    }
+    else
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glLoadIdentity();
+        // glRotatef(angle, 0.0f, 0.0f, -1.0f);
+        glPointSize(4.0f);
+        glBegin(GL_POINTS);
+        
+        std::lock_guard<std::mutex> lock(m_vecMutex);
+
+        // for (int i = 0; i < m_vecData.size() & i != 10; i++)
+        // {
+        //     float x = 0.0, y = 0.0, z = 0.0, in =0.0;
+        //     x = std::get<0>(m_vecData[i]);
+        //     y = std::get<1>(m_vecData[i]);
+        //     z = std::get<2>(m_vecData[i]);
+        //     in = std::get<3>(m_vecData[i]);
+        //     glColor3f(1.0f, 0.0f, 0.0f);
+        //     glVertex3f(x, y, z);
+        // }
+        for (int i = 0; i < 10; i++)
+        {
+            glColor3f(1.0f, 0.0f, 0.0f);
+            GLfloat x = i, y = i + 1, z = i + 2;
+            glVertex3f(x, y, z);
+        }
+        vector<tuple<float, float, float, float>>().swap(m_vecData);
+        glEnd();
+    }
 }
 
 int CViewer::model_finished(void)
