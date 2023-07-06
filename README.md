@@ -1,6 +1,10 @@
-# gstramerstudy
+# gstreamerstudy
 
-+ How to run
+## How to build
+```
 ./build.sh
-
+```
+## How to run demo
+```
 cd ./bin
+```
