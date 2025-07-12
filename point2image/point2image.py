@@ -161,7 +161,7 @@ def pltshowimg(im):
     plt.rcParams['font.sans-serif'] = ['SimHei']  # 中文乱码
     # plt.subplot(121)
     #imshow()对图像进行处理，画出图像，show()进行图像显示
-    plt.imshow(im, cmap="spectral", vmin=0, vmax=255)
+    plt.imshow(im, cmap="Spectral", vmin=0, vmax=255)
     
     plt.title('图像1')
     #不显示坐标轴
@@ -179,7 +179,10 @@ def PILshowImage(img):
 
 
 if __name__=="__main__":
-    points = o3d_read_pcd("/home/colinkang/MyFolder/StudyFolder/gstramerstudy/point2image/test.pcd")
+    import os
+    from pathlib import Path
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    points = o3d_read_pcd(script_dir + "/test.pcd")
     im = point_cloud_2_birdseye(points)
     # PILshowImage(im)
     # io.imshow(im)
